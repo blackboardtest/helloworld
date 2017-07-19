@@ -1,12 +1,19 @@
-http('http://www.yinwang.org').get('/', function (error, response, body) {
-	$ = cheerio.load(body);
-	$('.list-group a').each(function (index, value) {
-		var href  = $(this).attr('href');
-		var title = $(this).text();
-		var feed  = {
-			href: href,
-			title: title
-		};
-		feeds.append(feed);
-	});
-})
+$.get('http://www.yinwang.org', function(data, status, xhr) {
+		$(data).find('.list-group a').each(function (index, value) {
+			var url  = 'http://www.yinwang.org' + $(this).attr('href');
+			var title = $(this).text();
+			articles.get('url', url, function(article) {
+				if (article) return;
+
+				$.get(url, function(data, status, xhr) {
+					var article = {
+						title: title,
+						content: $(data).find('td').eq(0).find('div').eq(1).html(),
+						url: url,
+						time: ""
+					};
+					articles.append(article);
+				});
+			});
+		});
+});
