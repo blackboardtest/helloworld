@@ -6,12 +6,13 @@ $.get('http://www.yinwang.org', function(data, status, xhr) {
 				if (article) return;
 
 				$.get(url, function(data, status, xhr) {
-					var content = $(data).find('td').eq(0).find('div').eq(1);
-					content.find('h2').remove()
+					var html = $(data).find('td').eq(0).find('div').eq(1);
+					html.find('h2').remove()
+
 					var article = {
 						title: title,
-						content: content.html(),
-						summary: content.text().substring(0, 30),
+						content: html.html().trim(),
+						summary: html.text().trim().substring(0, 50),
 						url: url
 					};
 					articles.append(article);
