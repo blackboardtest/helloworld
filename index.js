@@ -5,7 +5,7 @@ hubble.getHtml('http://www.yinwang.org', function(error, response, $) {
 			articles.get('url', url, function(article) {
 				if (article) return;
 
-				hubble.get(url, function(error, response, $) {
+				hubble.getHtml(url, function(error, response, $) {
 					var html = $('td').eq(0).find('div').eq(1);
 					html.find('h2').remove()
 
